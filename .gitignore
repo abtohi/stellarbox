@@ -1,0 +1,23 @@
+# Sensitive Files & Credentials
+Classes/Dbh.php
+.env
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# IDE Settings
+.vscode/
+.idea/
+
+# Dependencies
+vendor/
+node_modules/
+
+# Docker generated files
+compose.yaml
+compose.debug.yaml
+docker_compose.yml.txt
