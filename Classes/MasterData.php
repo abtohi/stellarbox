@@ -9,7 +9,7 @@ class MasterData extends Dbh {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getAllSurveyors($rscEmail = null) {
+    public function getAllSI($rscEmail = null) {
         $sql = "SELECT * FROM master_structure";
         $params = [];
 

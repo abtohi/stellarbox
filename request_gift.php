@@ -15,9 +15,9 @@ try {
     $masterData = new MasterData();
     $projects = $masterData->getAllProjects();
     
-    // Filter Surveyors based on logged-in RSC email
+    // Filter SI based on logged-in RSC email
     $rscEmail = $_SESSION['useruid']; // useruid now stores email
-    $surveyors = $masterData->getAllSurveyors($rscEmail);
+    $siList = $masterData->getAllSI($rscEmail);
     
     $items = $masterData->getAllItems();
 
@@ -71,12 +71,13 @@ require_once 'layouts/header.php';
                                 <input type="text" class="form-control bg-light" id="wbsCode" readonly>
                             </div>
 
-                            <!-- Surveyor Selection -->
+                            <!-- SI Selection -->
                             <div class="mb-3">
-                                <label class="form-label small fw-bold">Surveyor (SI)</label>
+                                <label class="form-label small fw-bold">Nama SI</label>
+                                <div class="text-muted small mb-1">Filter by RSC: <?php echo htmlspecialchars($rscEmail); ?></div>
                                 <select class="form-select select2" id="siSelect" required>
-                                    <option value="">Select Surveyor...</option>
-                                    <?php foreach ($surveyors as $s): ?>
+                                    <option value="">Select Nama SI...</option>
+                                    <?php foreach ($siList as $s): ?>
                                         <option value="<?php echo $s['si_id']; ?>" data-area="<?php echo $s['area_city']; ?>">
                                             <?php echo $s['si_name']; ?>
                                         </option>
@@ -118,8 +119,8 @@ require_once 'layouts/header.php';
                                     <input type="number" class="form-control" id="orderQty" placeholder="0" required>
                                 </div>
                                 <div class="col-4">
-                                    <label class="form-label small fw-bold">Buffer</label>
-                                    <input type="number" class="form-control" id="bufferQty" placeholder="0">
+                                    <label class="form-label small fw-bold">Buffer (%)</label>
+                                    <input type="number" class="form-control" id="bufferQty" placeholder="0" readonly>
                                 </div>
                             </div>
 
@@ -163,10 +164,10 @@ require_once 'layouts/header.php';
                                 <thead class="table-light">
                                     <tr>
                                         <th>Project</th>
-                                        <th>Surveyor</th>
+                                        <th>Nama SI</th>
                                         <th>Item</th>
                                         <th>Qty</th>
-                                        <th>Buffer</th>
+                                        <th>Buffer (%)</th>
                                         <th>Total</th>
                                         <th>Action</th>
                                     </tr>
@@ -214,18 +215,28 @@ require_once 'layouts/header.php';
                 $('#areaCity').val(area || '');
             });
 
-            // Auto-fill Price & Calculate Total
-            $('#itemSelect, #orderQty').change(calculateTotal);
-            $('#itemSelect, #orderQty').keyup(calculateTotal);
+            // Auto-fill Price & Calculate Total & Buffer
+            $('#itemSelect, #orderQty, #quotaQty').change(calculateValues);
+            $('#itemSelect, #orderQty, #quotaQty').keyup(calculateValues);
 
-            function calculateTotal() {
+            function calculateValues() {
                 const price = $('#itemSelect').find(':selected').data('price') || 0;
-                const qty = $('#orderQty').val() || 0;
+                const qty = parseFloat($('#orderQty').val()) || 0;
+                const quota = parseFloat($('#quotaQty').val()) || 0;
+                
+                // Calculate Total
                 const total = price * qty;
-
                 $('#basePrice').val(price);
                 $('#totalRp').val(total);
                 $('#totalDisplay').text('Rp ' + total.toLocaleString('id-ID'));
+
+                // Calculate Buffer %
+                if (quota > 0 && qty > 0) {
+                    const buffer = ((qty - quota) / quota) * 100;
+                    $('#bufferQty').val(buffer.toFixed(2));
+                } else {
+                    $('#bufferQty').val(0);
+                }
             }
 
             // Add Item to List
