@@ -33,64 +33,28 @@ $filter_year = $filters['year'];
 $filter_project = $filters['project'];
 $filter_si = $filters['si'];
 $filter_date = $filters['date'];
+
+$page_title = "My Requests";
+require_once 'layouts/header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Requests - StellarBox</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Select2 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <style>
-        .table-hover tbody tr:hover {
-            background-color: #f8f9fa;
-        }
-        .status-badge {
-            min-width: 80px;
-        }
-    </style>
-</head>
-<body class="bg-light">
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm mb-4">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="dashboard.php">
-                <i class="bi bi-box-seam"></i> StellarBox
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="dashboard.php">Home</a></li>
-                    <?php if ($_SESSION["role"] == "RSC"): ?>
-                        <li class="nav-item"><a class="nav-link" href="request_gift.php">Request Gift</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="my_requests.php">My Requests</a></li>
-                    <?php endif; ?>
-                </ul>
-                <div class="d-flex align-items-center text-white">
-                    <span class="fw-bold me-2"><?php echo htmlspecialchars($_SESSION["useruid"]); ?></span>
-                    <a href="includes/logout.inc.php" class="btn btn-danger btn-sm">Logout</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container">
+    <div class="container-fluid mb-5">
         
+        <!-- Header Section -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h4 class="mb-1 text-primary fw-bold"><i class="bi bi-list-check"></i> My Requests</h4>
+                <p class="text-muted mb-0">View and track your gift requests.</p>
+            </div>
+            <a href="dashboard.php" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+
         <!-- Filter Section -->
         <div class="card shadow-sm mb-4 border-0">
             <div class="card-header bg-white py-3">
-                <h5 class="mb-0 text-primary"><i class="bi bi-funnel"></i> Filter Requests</h5>
+                <h6 class="mb-0 fw-bold text-primary"><i class="bi bi-funnel"></i> Filter Requests</h6>
             </div>
             <div class="card-body">
                 <form method="GET" action="my_requests.php" class="row g-3">
@@ -103,7 +67,7 @@ $filter_date = $filters['date'];
 
                     <!-- Filter: Project Name (Dropdown) -->
                     <div class="col-md-4">
-                        <label class="form-label small fw-bold">Nama Project</label>
+                        <label class="form-label small fw-bold">Project</label>
                         <select name="project" class="form-select select2">
                             <option value="">All Projects</option>
                             <?php foreach($filter_projects_options as $opt): ?>
@@ -149,7 +113,7 @@ $filter_date = $filters['date'];
         <!-- Data Table Section -->
         <div class="card shadow-sm border-0">
             <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                <h5 class="mb-0 text-secondary"><i class="bi bi-list-ul"></i> Request Data</h5>
+                <h6 class="mb-0 fw-bold text-primary"><i class="bi bi-table"></i> Request Data</h6>
                 <span class="badge bg-primary rounded-pill"><?php echo count($requests); ?> Records Found</span>
             </div>
             <div class="card-body p-0">
@@ -239,18 +203,4 @@ $filter_date = $filters['date'];
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('.select2').select2({
-                theme: 'bootstrap-5',
-                width: '100%',
-                placeholder: 'Select Option'
-            });
-        });
-    </script>
-</body>
-</html>
+<?php require_once 'layouts/footer.php'; ?>

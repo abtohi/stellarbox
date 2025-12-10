@@ -1,13 +1,13 @@
 <?php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
+    $email = $_POST["email"];
     $pwd = $_POST["pwd"];
 
     require_once "../Classes/Dbh.php";
     require_once "../Classes/Login.php";
 
-    $login = new Login($username, $pwd);
+    $login = new Login($email, $pwd);
     $login->loginUser();
 
     // Redirect ke dashboard utama

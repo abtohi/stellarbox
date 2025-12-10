@@ -9,51 +9,48 @@ if (!isset($_SESSION["userid"]) || $_SESSION["role"] !== "Admin") {
     echo "<p>The requested URL was not found on this server.</p>";
     exit();
 }
+
+$page_title = "Create User";
+require_once 'layouts/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StellarBox - Create User</title>
-    <!-- Link CSS Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+    <div class="container-fluid">
+        
+        <!-- Header Section -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h4 class="mb-1 text-primary fw-bold"><i class="bi bi-person-plus"></i> User Management</h4>
+                <p class="text-muted mb-0">Create and manage system users.</p>
+            </div>
+            <a href="dashboard.php" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
 
-<body class="bg-light">
-
-    <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-6"> <!-- Sedikit lebih lebar dari login (col-md-6 vs col-md-4) karena isiannya lebih banyak -->
+            <div class="col-md-8 col-lg-6"> 
                 
-                <div class="card shadow-sm">
-                    <div class="card-header bg-primary text-white">
-                        <h4 class="mb-0">Create New User</h4>
-                        <small>Admin Access Only</small>
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white py-3">
+                        <h6 class="mb-0 fw-bold text-primary">Create New User</h6>
                     </div>
                     <div class="card-body p-4">
                         
                         <form action="includes/signup.inc.php" method="post">
                             
                             <div class="mb-3">
-                                <label class="form-label">Username</label>
-                                <input type="text" name="username" class="form-control" placeholder="Choose a username" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Email Address</label>
+                                <label class="form-label small fw-bold">Email Address</label>
                                 <input type="email" name="email" class="form-control" placeholder="name@example.com" required>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Password</label>
+                                <label class="form-label small fw-bold">Password</label>
                                 <input type="password" name="pwd" class="form-control" placeholder="Create a strong password" required>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Role / Jabatan</label>
-                                <select name="role" class="form-select">
+                                <label class="form-label small fw-bold">Role / Jabatan</label>
+                                <select name="role" class="form-select select2">
                                     <option value="RSC">RSC (Requestor)</option>
                                     <option value="QPS">QPS (Vendor & Pricing)</option>
                                     <option value="EM">EM (Approval Manager)</option>
@@ -62,9 +59,10 @@ if (!isset($_SESSION["userid"]) || $_SESSION["role"] !== "Admin") {
                                 <div class="form-text">Pilih peran yang sesuai untuk pengguna ini.</div>
                             </div>
 
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary">Create User</button>
-                                <a href="dashboard.php" class="btn btn-outline-secondary">Back to Dashboard</a>
+                            <div class="d-grid gap-2 mt-4">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-check-lg"></i> Create User
+                                </button>
                             </div>
 
                         </form>
@@ -75,8 +73,4 @@ if (!isset($_SESSION["userid"]) || $_SESSION["role"] !== "Admin") {
         </div>
     </div>
 
-    <!-- Link JS Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+<?php require_once 'layouts/footer.php'; ?>

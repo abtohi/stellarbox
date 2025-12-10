@@ -2,23 +2,22 @@
 
 class Login extends Dbh
 {
-    private $username;
+    private $email;
     private $pwd;
 
-    public function __construct($username, $pwd)
+    public function __construct($email, $pwd)
     {
-        $this->username = $username;
+        $this->email = $email;
         $this->pwd = $pwd;
     }
 
     private function getUser()
     {
-        $sql = "SELECT * FROM users WHERE username = :username OR email = :email";
+        $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $this->connect()->prepare($sql);
 
         if (!$stmt->execute([
-            "username" => $this->username,
-            "email" => $this->username
+            "email" => $this->email
         ])) {
             $stmt = null;
             header("Location: ../index.php?error=stmtfailed");
@@ -41,28 +40,15 @@ class Login extends Dbh
         } elseif ($checkPwd == true) {
             session_start();
             $_SESSION["userid"] = $user["id"];
-            $_SESSION["useruid"] = $user["username"];
+            $_SESSION["useruid"] = $user["email"]; // Using email as useruid
             $_SESSION["role"] = $user["role"];
 
             $stmt = null;
         }
     }
 
-    private function checkEmpty()
-    {
-        if (empty($this->username) || empty($this->pwd)) {
-            return false;
-        }
-        return true;
-    }
-
     public function loginUser()
     {
-        if ($this->checkEmpty() == false) {
-            header("Location: ../index.php?error=emptyinput");
-            exit();
-        }
-
         $this->getUser();
     }
 }

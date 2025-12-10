@@ -33,9 +33,9 @@ if (isset($_SESSION["userid"])) {
                         <form action="includes/login.inc.php" method="post">
                             <!-- 5. Form Group: Pengelompokan Input -->
                             <div class="mb-3">
-                                <label class="form-label">Username / Email</label>
+                                <label class="form-label">Email Address</label>
                                 <!-- form-control: Bikin input jadi cantik & lebar 100% -->
-                                <input type="text" name="username" class="form-control" placeholder="Enter username" required>
+                                <input type="email" name="email" class="form-control" placeholder="Enter email" required>
                             </div>
                             
                             <div class="mb-3">
